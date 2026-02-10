@@ -58,18 +58,15 @@ jobs:
             PYTHON=python3
 
             echo "Stopping old app..."
-            pkill -f "uvicorn main:app" || true
+            pkill -f "uvicorn main:app" >/dev/null 2>&1 || true
 
             echo "Updating code..."
-            if [ -d "$APP_DIR" ]; then
-              rm -rf $APP_DIR
-            fi
-
+            rm -rf $APP_DIR
             git clone https://github.com/brajeshkumarDeveloper/Python-WebApplication.git $APP_DIR
             cd $APP_DIR
 
             echo "Ensuring venv support..."
-            sudo apt update
+            sudo apt update -y
             sudo apt install -y python3-venv
 
             echo "Creating virtual environment..."
