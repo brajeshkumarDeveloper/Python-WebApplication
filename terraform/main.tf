@@ -89,42 +89,42 @@
 
 
 
-# Security Group
-resource "aws_security_group" "fastapi_sg" {
-  name        = "fastapi-sg"
-  description = "Allow SSH, HTTP, FastAPI ports"
+# Security Group: will it later we have created the security group
+# resource "aws_security_group" "fastapi_sg" {
+#   name        = "fastapi-sg"
+#   description = "Allow SSH, HTTP, FastAPI ports"
 
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "SSH"
+#     from_port   = 22
+#     to_port     = 22
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "HTTP"
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  ingress {
-    description = "FastAPI"
-    from_port   = 8000
-    to_port     = 8000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "FastAPI"
+#     from_port   = 8000
+#     to_port     = 8000
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
 
 
 
