@@ -51,11 +51,11 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: false
           script: |
-            APP_DIR=/home/ubuntu/Python-WebApplication
+            APP_DIR=/home/***/Python-WebApplication
             PYTHON=python3
 
             echo "Stopping old app..."
-            pkill -f "uvicorn main:app" || echo "No existing app running"
+            psudo fuser -k 8000/tcp || echo "No existing app running"
 
             echo "Updating code..."
             rm -rf $APP_DIR
