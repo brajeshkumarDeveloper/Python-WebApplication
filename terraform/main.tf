@@ -128,19 +128,25 @@ resource "aws_security_group" "fastapi_sg" {
 
 
 
+# Read existing Security Group
+data "aws_security_group" "fastapi_sg" {
+  id = "sg-0274ed8fab68a301b"
+}
+
 # EC2 instance
 resource "aws_instance" "fastapi_ec2" {
   ami           = "ami-0b6c6ebed2801a5cb"
   instance_type = var.instance_type
 
   vpc_security_group_ids = [
-    aws_security_group.fastapi_sg.id
+    data.aws_security_group.fastapi_sg.id
   ]
 
   tags = {
     Name = "FastAPI-App-Server"
   }
 }
+
 
 
 # Output public IP

@@ -31,19 +31,20 @@ jobs:
         run: terraform apply -auto-approve
 
   deploy:
-    name: Deploy FastAPI App
-    needs: terraform
+    name: Deploy FastAPI to EC2
     runs-on: ubuntu-latest
+    needs: terraform
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST_NAME }}
           username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          timeout: 30s
+          command_timeout: 10m
           script: |
             set -e
 
@@ -52,7 +53,7 @@ jobs:
 
             cd ~
             rm -rf Python-WebApplication
-            git clone https://github.com/${{ github.repository }}.git Python-WebApplication
+            git clone https://github.com/brajeshkumarDeveloper/Python-WebApplication.git
             cd Python-WebApplication
 
             python3 -m venv venv
