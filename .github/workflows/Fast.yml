@@ -51,16 +51,18 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: false
           script: |
-            APP_DIR=/home/***/Python-WebApplication
+            set -e
+
+            APP_DIR=$HOME/Python-WebApplication
             PYTHON=python3
 
             echo "Stopping old app..."
-            psudo fuser -k 8000/tcp || echo "No existing app running"
+            sudo fuser -k 8000/tcp || echo "No existing app running"
 
             echo "Updating code..."
-            rm -rf $APP_DIR
-            git clone https://github.com/brajeshkumarDeveloper/Python-WebApplication.git $APP_DIR
-            cd $APP_DIR
+            rm -rf "$APP_DIR"
+            git clone https://github.com/brajeshkumarDeveloper/Python-WebApplication.git "$APP_DIR"
+            cd "$APP_DIR"
 
             echo "Ensuring venv support..."
             sudo apt update -y
@@ -81,5 +83,3 @@ jobs:
               > app.log 2>&1 &
 
             echo "Deployment finished"
-
-
