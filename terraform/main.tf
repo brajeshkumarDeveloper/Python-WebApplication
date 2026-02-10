@@ -128,7 +128,7 @@
 
 
 
-# Read existing Security Group
+# Existing Security Group
 data "aws_security_group" "fastapi_sg" {
   id = "sg-0274ed8fab68a301b"
 }
@@ -137,6 +137,7 @@ data "aws_security_group" "fastapi_sg" {
 resource "aws_instance" "fastapi_ec2" {
   ami           = "ami-0b6c6ebed2801a5cb"
   instance_type = var.instance_type
+  key_name      = "fastapi-key"   # 🔴 REQUIRED for SSH
 
   vpc_security_group_ids = [
     data.aws_security_group.fastapi_sg.id
@@ -147,9 +148,16 @@ resource "aws_instance" "fastapi_ec2" {
   }
 }
 
+# Elastic IP
+resource "aws_eip" "fastapi_eip" {
+  instance = aws_instance.fastapi_ec2.id
 
+  tags = {
+    Name = "FastAPI-EIP"
+  }
+}
 
-# Output public IP
+# Output stable IP
 output "ec2_public_ip" {
-  value = aws_instance.fastapi_ec2.public_ip
+  value = aws_eip.fastapi_eip.public_ip
 }
