@@ -55,7 +55,7 @@ jobs:
             PYTHON=python3
 
             echo "Stopping old app..."
-            pkill -9 -f "uvicorn main:app" || echo "No existing app"
+            pkill -f "uvicorn main:app" || echo "No existing app running"
 
             echo "Updating code..."
             rm -rf $APP_DIR
@@ -75,7 +75,11 @@ jobs:
             pip install -r requirements.txt
 
             echo "Starting FastAPI app..."
-            setsid venv/bin/uvicorn main:app \
+            nohup venv/bin/uvicorn main:app \
               --host 0.0.0.0 \
               --port 8000 \
-              > app.log 2>&1 < /dev/null &
+              > app.log 2>&1 &
+
+            echo "Deployment finished"
+
+
