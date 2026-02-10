@@ -86,11 +86,8 @@
   
 # }
 # ==================================================
-# Create key pair
-resource "aws_key_pair" "fastapi_key" {
-  key_name   = var.key_name
-  public_key = file("${path.module}/id_rsa.pub")
-}
+
+
 
 # Security Group
 resource "aws_security_group" "fastapi_sg" {
@@ -133,7 +130,6 @@ resource "aws_security_group" "fastapi_sg" {
 resource "aws_instance" "fastapi_ec2" {
   ami           = "ami-0b6c6ebed2801a5cb"
   instance_type = var.instance_type
-  key_name      = aws_key_pair.fastapi_key.key_name
   security_groups = [aws_security_group.fastapi_sg.name]
 
   tags = {
